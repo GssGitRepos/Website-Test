@@ -10,5 +10,25 @@
     <button onclick="alert('Connecting to AgentForce...')">
         Connect
     </button>
+
+    <script type='text/javascript'>
+	function initEmbeddedMessaging() {
+		try {
+			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+
+			embeddedservice_bootstrap.init(
+				'00DgL000007htRp',
+				'Website_Test',
+				'https://orgfarm-c8974e212e-dev-ed.develop.my.site.com/ESWWebsiteTest1754906740242',
+				{
+					scrt2URL: 'https://orgfarm-c8974e212e-dev-ed.develop.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
+</script>
+<script type='text/javascript' src='https://orgfarm-c8974e212e-dev-ed.develop.my.site.com/ESWWebsiteTest1754906740242/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 </body>
 </html>
