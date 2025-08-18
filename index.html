@@ -1,16 +1,1313 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>AgentForce Demo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Properties - Your Dream Home Awaits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Page Content */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Home Page */
+        .hero {
+            background: linear-gradient(rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23f8f9fa" width="1200" height="600"/><rect fill="%23e9ecef" x="100" y="150" width="200" height="300" rx="10"/><rect fill="%23dee2e6" x="350" y="100" width="250" height="350" rx="10"/><rect fill="%23ced4da" x="650" y="120" width="220" height="330" rx="10"/><rect fill="%23adb5bd" x="920" y="80" width="200" height="370" rx="10"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            margin: 2rem 0;
+            border-radius: 20px;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        /* Properties Page */
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .property-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .property-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .property-image {
+            height: 250px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .property-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><rect fill="%23f8f9fa" width="400" height="250"/><polygon fill="%23495057" points="50,200 200,50 350,200"/><rect fill="%236c757d" x="150" y="120" width="100" height="80"/><rect fill="%23343a40" x="170" y="140" width="25" height="40"/><rect fill="%23495057" x="205" y="140" width="25" height="25"/></svg>');
+            background-size: cover;
+            opacity: 0.3;
+        }
+
+        .property-details {
+            padding: 1.5rem;
+        }
+
+        .property-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .property-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .property-location {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .property-features {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* About Page */
+        .about-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-member {
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .member-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        /* Services Page */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Contact Page */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            padding: 2rem 0;
+        }
+
+        .contact-form, .contact-info {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        /* FAQ Page */
+        .faq-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #eee;
+            padding: 1rem 0;
+        }
+
+        .faq-question {
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: #f8f9fa;
+        }
+
+        .faq-answer {
+            padding: 1rem;
+            display: none;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 0.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        .faq-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to AgentForce</h1>
-    <p>This is a simple HTML page for AgentForce in Salesforce.</p>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">Prime Properties</div>
+                <ul class="nav-links">
+                    <li><a href="#" onclick="showPage('home')">Home</a></li>
+                    <li><a href="#" onclick="showPage('properties')">Properties</a></li>
+                    <li><a href="#" onclick="showPage('services')">Services</a></li>
+                    <li><a href="#" onclick="showPage('about')">About</a></li>
+                    <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+                    <li><a href="#" onclick="showPage('faq')">FAQ</a></li>
+                </ul>
+                <div class="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-    <button onclick="alert('Connecting to AgentForce...')">
-        Connect
-    </button>
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Find Your Dream Home</h1>
+                    <p>Discover luxury properties in prime locations with our expert real estate services</p>
+                    <a href="#" onclick="showPage('properties')" class="cta-button">Browse Properties</a>
+                </div>
+            </div>
+        </div>
 
+        <div class="container">
+            <div class="features">
+                <h2>Why Choose Prime Properties</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🏠</div>
+                        <h3>Premium Properties</h3>
+                        <p>Carefully curated selection of luxury homes and commercial properties in prime locations.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💼</div>
+                        <h3>Expert Agents</h3>
+                        <p>Professional real estate agents with years of experience and local market knowledge.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3>Market Analysis</h3>
+                        <p>Comprehensive market analysis and property valuation services for informed decisions.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📞</div>
+                        <h3>24/7 Support</h3>
+                        <p>Round-the-clock customer support to assist you throughout your property journey.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Properties Page -->
+    <div id="properties" class="page">
+        <div class="container">
+            <h1 style="text-align: center; color: white; margin-bottom: 2rem;">Featured Properties</h1>
+            <div class="properties-grid">
+                <div class="property-card">
+                    <div class="property-image">Luxury Villa</div>
+                    <div class="property-details">
+                        <div class="property-price">$1,250,000</div>
+                        <div class="property-title">Modern Luxury Villa</div>
+                        <div class="property-location">📍 Beverly Hills, CA</div>
+                        <div class="property-features">
+                            <div class="feature">🛏️ 4 Beds</div>
+                            <div class="feature">🚿 3 Baths</div>
+                            <div class="feature">📐 3,200 sq ft</div>
+                        </div>
+                        <p>Stunning modern villa with panoramic city views, premium finishes, and smart home technology.</p>
+                    </div>
+                </div>
+                
+                <div class="property-card">
+                    <div class="property-image">Downtown Penthouse</div>
+                    <div class="property-details">
+                        <div class="property-price">$2,100,000</div>
+                        <div class="property-title">Executive Penthouse</div>
+                        <div class="property-location">📍 Manhattan, NY</div>
+                        <div class="property-features">
+                            <div class="feature">🛏️ 3 Beds</div>
+                            <div class="feature">🚿 2 Baths</div>
+                            <div class="feature">📐 2,800 sq ft</div>
+                        </div>
+                        <p>Exclusive penthouse apartment in the heart of Manhattan with breathtaking skyline views.</p>
+                    </div>
+                </div>
+                
+                <div class="property-card">
+                    <div class="property-image">Waterfront Estate</div>
+                    <div class="property-details">
+                        <div class="property-price">$3,750,000</div>
+                        <div class="property-title">Oceanfront Estate</div>
+                        <div class="property-location">📍 Malibu, CA</div>
+                        <div class="property-features">
+                            <div class="feature">🛏️ 5 Beds</div>
+                            <div class="feature">🚿 4 Baths</div>
+                            <div class="feature">📐 5,500 sq ft</div>
+                        </div>
+                        <p>Magnificent oceanfront estate with private beach access, infinity pool, and luxury amenities.</p>
+                    </div>
+                </div>
+                
+                <div class="property-card">
+                    <div class="property-image">Historic Mansion</div>
+                    <div class="property-details">
+                        <div class="property-price">$1,850,000</div>
+                        <div class="property-title">Victorian Mansion</div>
+                        <div class="property-location">📍 San Francisco, CA</div>
+                        <div class="property-features">
+                            <div class="feature">🛏️ 6 Beds</div>
+                            <div class="feature">🚿 4 Baths</div>
+                            <div class="feature">📐 4,200 sq ft</div>
+                        </div>
+                        <p>Beautifully restored Victorian mansion with original architectural details and modern upgrades.</p>
+                    </div>
+                </div>
+                
+                <div class="property-card">
+                    <div class="property-image">Modern Townhouse</div>
+                    <div class="property-details">
+                        <div class="property-price">$875,000</div>
+                        <div class="property-title">Contemporary Townhouse</div>
+                        <div class="property-location">📍 Austin, TX</div>
+                        <div class="property-features">
+                            <div class="feature">🛏️ 3 Beds</div>
+                            <div class="feature">🚿 2.5 Baths</div>
+                            <div class="feature">📐 2,400 sq ft</div>
+                        </div>
+                        <p>Stylish contemporary townhouse in vibrant downtown Austin with rooftop terrace.</p>
+                    </div>
+                </div>
+                
+                <div class="property-card">
+                    <div class="property-image">Golf Course Home</div>
+                    <div class="property-details">
+                        <div class="property-price">$1,450,000</div>
+                        <div class="property-title">Golf Course Residence</div>
+                        <div class="property-location">📍 Scottsdale, AZ</div>
+                        <div class="property-features">
+                            <div class="feature">🛏️ 4 Beds</div>
+                            <div class="feature">🚿 3 Baths</div>
+                            <div class="feature">📐 3,600 sq ft</div>
+                        </div>
+                        <p>Elegant home overlooking championship golf course with desert mountain views and resort-style amenities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Page -->
+    <div id="services" class="page">
+        <div class="container">
+            <h1 style="text-align: center; color: white; margin-bottom: 2rem;">Our Services</h1>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>🏡 Residential Sales</h3>
+                    <p>Comprehensive residential real estate services including buying, selling, and market analysis. Our experienced agents guide you through every step of the process.</p>
+                    <ul style="margin-top: 1rem;">
+                        <li>Home buying assistance</li>
+                        <li>Property listing and marketing</li>
+                        <li>Market analysis and pricing</li>
+                        <li>Negotiation and closing support</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <h3>🏢 Commercial Real Estate</h3>
+                    <p>Expert commercial property services for businesses, investors, and developers. From office buildings to retail spaces and industrial properties.</p>
+                    <ul style="margin-top: 1rem;">
+                        <li>Commercial property sales</li>
+                        <li>Lease negotiations</li>
+                        <li>Investment analysis</li>
+                        <li>Property management</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <h3>💰 Property Investment</h3>
+                    <p>Strategic investment consulting to help you build a profitable real estate portfolio with expert market insights and analysis.</p>
+                    <ul style="margin-top: 1rem;">
+                        <li>Investment property identification</li>
+                        <li>ROI analysis and projections</li>
+                        <li>Market trend analysis</li>
+                        <li>Portfolio optimization</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <h3>🏠 Property Management</h3>
+                    <p>Full-service property management solutions for residential and commercial properties, ensuring maximum returns and hassle-free ownership.</p>
+                    <ul style="margin-top: 1rem;">
+                        <li>Tenant screening and placement</li>
+                        <li>Rent collection and accounting</li>
+                        <li>Maintenance and repairs</li>
+                        <li>Property inspections</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <h3>📊 Market Analysis</h3>
+                    <p>Detailed market research and analysis services to help you make informed real estate decisions based on current market conditions.</p>
+                    <ul style="margin-top: 1rem;">
+                        <li>Comparative market analysis</li>
+                        <li>Property valuation</li>
+                        <li>Market trend reports</li>
+                        <li>Investment feasibility studies</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <h3>🔑 Property Consultation</h3>
+                    <p>Expert consultation services for all your real estate needs, from first-time buyers to seasoned investors seeking strategic advice.</p>
+                    <ul style="margin-top: 1rem;">
+                        <li>Buying and selling strategy</li>
+                        <li>Property development consulting</li>
+                        <li>Legal and regulatory guidance</li>
+                        <li>Financial planning assistance</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <div class="container">
+            <div class="about-content">
+                <h1>About Prime Properties</h1>
+                <p style="font-size: 1.2rem; margin: 2rem 0;">Since 2010, Prime Properties has been a leading force in luxury real estate, helping thousands of clients find their dream homes and make smart investment decisions. Our commitment to excellence, integrity, and personalized service has earned us recognition as one of the top real estate agencies in the region.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 3rem 0;">
+                    <div>
+                        <h3 style="color: #667eea; margin-bottom: 1rem;">Our Mission</h3>
+                        <p>To provide exceptional real estate services that exceed client expectations while maintaining the highest standards of professionalism and integrity in every transaction.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: #667eea; margin-bottom: 1rem;">Our Vision</h3>
+                        <p>To be the most trusted and respected real estate agency, known for our expertise, innovation, and commitment to creating lasting relationships with our clients.</p>
+                    </div>
+                </div>
+
+                <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px; margin: 2rem 0;">
+                    <h3 style="margin-bottom: 1rem;">Why Choose Us?</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div>📈 15+ Years Experience</div>
+                        <div>🏆 Award-Winning Service</div>
+                        <div>💯 98% Client Satisfaction</div>
+                        <div>🌟 5-Star Google Rating</div>
+                        <div>💼 $2B+ in Sales</div>
+                        <div>👥 50+ Expert Agents</div>
+                    </div>
+                </div>
+
+                <h2 style="text-align: center; margin: 3rem 0 2rem;">Meet Our Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-photo">JD</div>
+                        <h4>John Davidson</h4>
+                        <p style="color: #667eea; font-weight: bold;">CEO & Founder</p>
+                        <p>15+ years in luxury real estate with expertise in high-end residential and commercial properties.</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-photo">SR</div>
+                        <h4>Sarah Rodriguez</h4>
+                        <p style="color: #667eea; font-weight: bold;">Senior Sales Director</p>
+                        <p>Top-performing agent specializing in waterfront properties and luxury condominiums.</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-photo">MC</div>
+                        <h4>Michael Chen</h4>
+                        <p style="color: #667eea; font-weight: bold;">Investment Specialist</p>
+                        <p>Commercial real estate expert with a focus on investment properties and portfolio development.</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-photo">EJ</div>
+                        <h4>Emily Johnson</h4>
+                        <p style="color: #667eea; font-weight: bold;">Residential Manager</p>
+                        <p>Dedicated to helping first-time buyers and families find their perfect home.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <div class="container">
+            <h1 style="text-align: center; color: white; margin-bottom: 2rem;">Contact Us</h1>
+            <div class="contact-content">
+                <div class="contact-form">
+                    <h2>Send Us a Message</h2>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="interest">I'm Interested In</label>
+                            <select id="interest" name="interest" style="width: 100%; padding: 1rem; border: 2px solid #e9ecef; border-radius: 10px;">
+                                <option value="">Select an option</option>
+                                <option value="buying">Buying a Property</option>
+                                <option value="selling">Selling a Property</option>
+                                <option value="renting">Renting a Property</option>
+                                <option value="investment">Investment Opportunities</option>
+                                <option value="management">Property Management</option>
+                                <option value="consultation">Consultation</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Tell us about your real estate needs..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+                
+                <div class="contact-info">
+                    <h2>Get In Touch</h2>
+                    <div style="margin: 2rem 0;">
+                        <div style="display: flex; align-items: center; margin: 1rem 0;">
+                            <span style="font-size: 1.5rem; margin-right: 1rem;">📍</span>
+                            <div>
+                                <strong>Main Office</strong><br>
+                                123 Luxury Avenue<br>
+                                Beverly Hills, CA 90210
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; margin: 1rem 0;">
+                            <span style="font-size: 1.5rem; margin-right: 1rem;">📞</span>
+                            <div>
+                                <strong>Phone</strong><br>
+                                (555) 123-4567
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; margin: 1rem 0;">
+                            <span style="font-size: 1.5rem; margin-right: 1rem;">📧</span>
+                            <div>
+                                <strong>Email</strong><br>
+                                info@primeproperties.com
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; margin: 1rem 0;">
+                            <span style="font-size: 1.5rem; margin-right: 1rem;">🕒</span>
+                            <div>
+                                <strong>Office Hours</strong><br>
+                                Monday - Friday: 9:00 AM - 7:00 PM<br>
+                                Saturday: 10:00 AM - 5:00 PM<br>
+                                Sunday: 12:00 PM - 4:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
+                        <h3>Emergency Contact</h3>
+                        <p>For urgent property matters outside business hours:</p>
+                        <p><strong>24/7 Hotline:</strong> (555) 999-8888</p>
+                    </div>
+                    
+                    <div style="margin-top: 2rem;">
+                        <h3>Follow Us</h3>
+                        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                            <a href="#" style="text-decoration: none; color: #667eea; font-size: 1.5rem;">📘 Facebook</a>
+                            <a href="#" style="text-decoration: none; color: #667eea; font-size: 1.5rem;">📷 Instagram</a>
+                            <a href="#" style="text-decoration: none; color: #667eea; font-size: 1.5rem;">🐦 Twitter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Page -->
+    <div id="faq" class="page">
+        <div class="container">
+            <h1 style="text-align: center; color: white; margin-bottom: 2rem;">Frequently Asked Questions</h1>
+            <div class="faq-container">
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        How do I get started with buying my first home?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Start by getting pre-approved for a mortgage to understand your budget. Then, contact one of our experienced agents who will guide you through the entire process, from property search to closing. We recommend having a down payment of at least 10-20% and ensuring your credit score is above 620 for the best rates.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What documents do I need to sell my property?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>You'll need the property deed, recent tax statements, utility bills, insurance information, HOA documents (if applicable), property survey, and any warranties or inspection reports. Our team will provide you with a complete checklist and help gather all necessary documentation.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        How long does it typically take to sell a house?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>The average time varies by market conditions and property type, but typically ranges from 30-90 days. Luxury properties may take longer due to a smaller buyer pool. Our strategic marketing approach and professional staging can significantly reduce time on market.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What are your commission rates?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Our commission rates are competitive and vary based on the property value and services required. We offer full-service packages starting at 5% for residential properties, with reduced rates for luxury properties over $1M. Contact us for a personalized quote.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        Do you offer property management services?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, we provide comprehensive property management services including tenant screening, rent collection, maintenance coordination, and financial reporting. Our management fees start at 8% of monthly rental income with no setup fees for existing clients.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What areas do you serve?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We primarily serve the greater Los Angeles area, including Beverly Hills, Hollywood, Santa Monica, Malibu, and surrounding communities. We also have partnerships with agents in San Francisco, New York, and Miami for client referrals.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        Can you help with investment properties?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Absolutely! Our investment specialists can help identify profitable rental properties, analyze cash flow potential, and provide market insights. We offer comprehensive investment analysis including cap rates, ROI projections, and market comparisons.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What makes your agency different from others?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Our combination of luxury market expertise, cutting-edge technology, personalized service, and proven track record sets us apart. We offer 24/7 support, professional photography and staging, and have closed over $2B in transactions with a 98% client satisfaction rate.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        Do you provide market analysis reports?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, we provide detailed Comparative Market Analysis (CMA) reports at no cost to serious buyers and sellers. These reports include recent sales data, current market trends, and pricing recommendations based on comparable properties in your area.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What is the home buying process timeline?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>The typical timeline is 30-45 days from offer acceptance to closing. This includes inspection periods (7-10 days), appraisal (10-14 days), loan processing (20-30 days), and final walkthrough. Cash purchases can close in as little as 14 days.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        Do you work with first-time homebuyers?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, we love working with first-time buyers! We provide educational resources, connect you with trusted lenders, and guide you through every step. We're familiar with first-time buyer programs and can help you take advantage of available incentives and grants.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What should I look for in a neighborhood?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Consider factors like school districts, commute times, safety ratings, property values trends, local amenities, and future development plans. We provide detailed neighborhood reports including demographics, crime statistics, and market trends to help you make an informed decision.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        How do you determine a property's market value?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We use a combination of recent comparable sales, current market conditions, property condition, location factors, and unique features. Our agents also consider pending sales and market trends to provide the most accurate valuation possible.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What happens if my home doesn't sell?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>If your home doesn't sell within the expected timeframe, we'll reassess our strategy. This may include adjusting the price, enhancing marketing efforts, improving staging, or addressing any property issues. We're committed to achieving results and will work with you until your property sells.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        Can I buy a property without an agent?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>While legally possible, we strongly recommend using a qualified agent. Real estate transactions involve complex contracts, negotiations, and legal requirements. Our expertise can save you time, money, and potential legal issues, often at no direct cost to buyers.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What are closing costs and who pays them?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Closing costs typically range from 2-5% of the purchase price and include items like title insurance, escrow fees, inspections, and loan fees. Both buyers and sellers have closing costs, though the specific items vary. We'll provide a detailed estimate early in the process.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        Do you handle commercial real estate?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, we have specialized commercial agents who handle office buildings, retail spaces, industrial properties, and investment opportunities. Our commercial team provides leasing, sales, and investment analysis services for properties ranging from small retail to large multi-million dollar complexes.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What is a buyer's market vs. seller's market?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>A buyer's market has more homes available than buyers, giving buyers more negotiating power and choices. A seller's market has more buyers than available homes, often resulting in multiple offers and higher prices. We'll explain current market conditions and adjust our strategy accordingly.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        How important is location in real estate?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Location is crucial and often the most important factor in real estate value. Good locations typically maintain or increase value over time, while poor locations may struggle. Consider proximity to employment centers, schools, transportation, shopping, and future development plans.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What should I know about homeowners associations (HOAs)?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>HOAs manage common areas and enforce community rules. They charge monthly/annual fees and can have strict regulations about property modifications. Review HOA documents carefully, including fees, rules, financial health, and any pending assessments before purchasing.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        How do I prepare my home for showings?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Declutter and depersonalize your space, ensure cleanliness, make minor repairs, improve lighting, and consider professional staging. We provide a comprehensive preparation checklist and can recommend trusted contractors and stagers to maximize your property's appeal.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What is the difference between pre-qualification and pre-approval?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Pre-qualification is an informal estimate based on basic financial information, while pre-approval involves a thorough review of your finances and credit. Pre-approval carries more weight with sellers and shows you're a serious, qualified buyer.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        Can you help with relocation services?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Absolutely! We offer comprehensive relocation services including area orientation tours, school information, temporary housing assistance, and connections to other professionals like moving companies, contractors, and utility providers.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What happens during a home inspection?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>A qualified inspector examines the property's structure, systems, and components, including electrical, plumbing, HVAC, roof, and foundation. The inspection typically takes 2-4 hours and results in a detailed report highlighting any issues or needed repairs.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        How do you market properties?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We use a comprehensive marketing strategy including professional photography, virtual tours, MLS listing, social media promotion, luxury real estate websites, print advertising in high-end publications, and our extensive network of agents and contacts.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What is earnest money and how much should I offer?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Earnest money demonstrates your serious intent to purchase and is typically 1-3% of the purchase price. It's held in escrow and applied toward your down payment or closing costs. In competitive markets, higher earnest money can strengthen your offer.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        Do you provide virtual tours and online services?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, we offer comprehensive virtual services including 3D virtual tours, video walkthroughs, virtual consultations, digital document signing, and online property search tools. These services are especially valuable for out-of-state buyers or during busy schedules.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What should I expect at closing?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Closing involves signing numerous documents, transferring funds, and receiving keys to your new property. We'll review all documents beforehand, coordinate with all parties, and ensure a smooth transaction. The process typically takes 1-2 hours.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        How can I increase my home's value before selling?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Focus on high-impact improvements like kitchen and bathroom updates, fresh paint, new flooring, improved lighting, and enhanced curb appeal. We can provide a prioritized list of improvements based on your budget and local market preferences.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Prime Properties. All rights reserved. Licensed Real Estate Broker | CA DRE #01234567</p>
+            <p>Luxury Real Estate Services | Beverly Hills, CA | (555) 123-4567</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation functionality
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+
+            // Update active nav link
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                link.style.color = '#333';
+            });
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // FAQ functionality
+        function toggleFAQ(button) {
+            const answer = button.nextElementSibling;
+            const icon = button.querySelector('.faq-icon');
+            
+            // Close other open FAQs
+            document.querySelectorAll('.faq-question').forEach(q => {
+                if (q !== button) {
+                    q.classList.remove('active');
+                    q.nextElementSibling.classList.remove('active');
+                    q.querySelector('.faq-icon').textContent = '+';
+                }
+            });
+            
+            // Toggle current FAQ
+            button.classList.toggle('active');
+            answer.classList.toggle('active');
+            icon.textContent = button.classList.contains('active') ? '×' : '+';
+        }
+
+        // Contact form handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will contact you within 24 hours.');
+            this.reset();
+        });
+
+        // Smooth scrolling for navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 4px 25px rgba(0, 0, 0, 0.15)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+            }
+        });
+
+        // Add animation to feature cards on scroll
+        function animateOnScroll() {
+            const cards = document.querySelectorAll('.feature-card, .property-card, .service-card, .team-member');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (cardTop < windowHeight - 100) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.feature-card, .property-card, .service-card, .team-member');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'all 0.6s ease';
+            });
+            
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Run once on load
+        });
+
+        // Mobile menu toggle (basic implementation)
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+    </script>
     <script type='text/javascript'>
 	function initEmbeddedMessaging() {
 		try {
